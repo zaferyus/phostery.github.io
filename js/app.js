@@ -404,7 +404,6 @@ angular.module('wallpaper', ['ngTouch'])
             } else {
                 // Change properties for a shared link page
                 $scope.name = decodeURIComponent(name);
-                document.getElementsByClassName('splash')[0].style.display = 'none';
                 document.getElementById('save-data').style.display = 'block';
                 document.getElementById('clear-data').style.display = 'none';
                 code[0] = true;
