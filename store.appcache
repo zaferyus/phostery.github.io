@@ -1,0 +1,22 @@
+CACHE MANIFEST
+# 2015-08-13:v4
+
+CACHE:
+index.html
+manifest.json
+js/angular.min.js
+js/angular-touch.min.js
+js/material.min.js
+js/app.js
+img/icon.png
+css/material.min.css
+css/material-icons.css
+css/animate.min.css
+css/app.css
+fonts/material-icons.eot
+fonts/material-icons.ttf
+fonts/material-icons.woff
+fonts/material-icons.woff2
+
+NETWORK:
+*
