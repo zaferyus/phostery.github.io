@@ -45,6 +45,12 @@
       margin-top: 40px;
       color: white;
     }
+    
+    @media screen and (max-width: 700px) {
+      .banner {
+        text-align: center;
+      }
+    }
   </style>
 </head>
 
@@ -53,13 +59,12 @@
     <div class="fade">
       <div class="container">
         <div class="row">
-          <img src="img/logo.svg" style="max-width:150px;margin-top:40px;" alt="">
+          <img src="img/logo.svg" style="width: 100%;max-width:150px;margin-top:40px;" alt="">
           <h1 class="mdl-typography--display-3 mdl-typography--font-thin">Phostery</h1>
           <p class="mdl-typography--headline mdl-typography--font-thin">A Collection manager using HTML5, AngularJS and Material Design</p>
           <a href="index.html">
             <button class="mdl-button mdl-js-button" style="color: white">take me to the app already</button>
           </a>
-          <button class="mdl-button mdl-js-button" style="color: white">learn more about it</button>
         </div>
       </div>
     </div>
@@ -69,7 +74,7 @@
     <div class="mdl-color--indigo-A200" style="color: white">
       <div class="container">
         <div class="row">
-          <div style="max-width: 700px;width: 100%;margin: 0 auto;padding: 0 8px 20px 8px">
+          <div class="banner" style="max-width: 700px;width: 100%;margin: 0 auto;padding: 0 8px 20px 8px">
             <h2 class="mdl-typography--display-1 mdl-typography--font-thin">Album Bookmark</h2>
             <span class="mdl-typography--headline mdl-typography--font-thin">Name your album and add images to it, but don't worry,<br /> no login required. Private, quick and simple!</span>
           </div>
@@ -88,14 +93,15 @@
           <br />
           <img src="img/screenshot.png" style="width: 100%;" alt="">
         </div>
-        <div class="col-md-6">
-          <br />
-          <img src="img/screenshot2.png" style="width: 100%;" alt="">
-        </div>
+        <hr style="width: 100%;top: 18px;position: relative" />
         <div class="col-md-6">
           <br />
           <h2 class="mdl-typography--font-light mdl-typography--display-1-color-contrast">But Wait...</h2>
           <span>You can edit and everything is only for your eyes, YEAH! But you still can share it for someone, and they can make tweaks and changes too !</span>
+        </div>
+        <div class="col-md-6">
+          <br />
+          <img src="img/screenshot2.png" style="width: 100%;" alt="">
         </div>
       </div>
     </div>
@@ -103,7 +109,7 @@
   <footer>
     <div style="width: 100%; text-align: center;padding: 16px;" class="mdl-color--grey-800">
       <h2 class="mdl-typography--headline mdl-typography--font-thin">Or ... Source Code?</h2>
-      <a href="https://github.com/gabrielbarbosanascimento/MaterialCollection">
+      <a href="https://github.com/Phostery/phostery.github.io">
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
           Github
         </button>
