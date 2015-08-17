@@ -6,7 +6,7 @@ angular.module('wallpaper', ['ngTouch'])
         $scope.name = 'My Album';
         $scope.images = [];
         $scope.selectedPhotosByIndex = [];
-        $scope.shareLink = 'http://gabrielbarbosanascimento.github.io/MaterialCollection/';
+        $scope.shareLink = 'http://phostery.github.io/';
        
         // Some basic global variables
         var i, j, l, equal, code;   
@@ -111,10 +111,10 @@ angular.module('wallpaper', ['ngTouch'])
                 link = 'NO PHOTOS ON THIS ALBUM';
             } else {
                 if (selected == null || selected == undefined) {
-                    link = 'http://gabrielbarbosanascimento.github.io/MaterialCollection/' + '#name==' + encodeURIComponent($scope.name) + "&&" + "images==" + link;
+                    link = 'http://phostery.github.io/' + '#name==' + encodeURIComponent($scope.name) + "&&" + "images==" + link;
                     snackbar('Created link for this album!');
                 } else {
-                    link = 'http://gabrielbarbosanascimento.github.io/MaterialCollection/' + '#name==Shared%20With%20Me' + "&&" + "images==" + link;
+                    link = 'http://phostery.github.io/' + '#name==Shared%20With%20Me' + "&&" + "images==" + link;
                     snackbar('Created link for ' + $scope.selectedPhotosByIndex.length + ' photos!');
                 }
             }
@@ -216,7 +216,7 @@ angular.module('wallpaper', ['ngTouch'])
             setItem('visit', true);
 
             if (!saveSelection) {
-                window.location.assign('http://gabrielbarbosanascimento.github.io/MaterialCollection/');
+                window.location.assign('http://phostery.github.io/');
             }
         };
 
