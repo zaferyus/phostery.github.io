@@ -185,6 +185,7 @@ h6 {
     display: none;
 }
 .image-show div {
+    background: -webkit-linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,0.4));
     background: linear-gradient(0deg,rgba(0,0,0,0),rgba(0,0,0,0.4));
     color: white;
 }
