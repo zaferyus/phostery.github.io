@@ -176,7 +176,27 @@ h6 {
     z-index: 555;
 }
 
+.loadMore{
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+}
 
+.loadMore div{
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    line-height: 14;
+    border: 2px solid #3F51B5;
+    border-radius: 50%;
+    font-size: 0.8em;
+    color: #3F51B5;
+    cursor: pointer;
+    opacity: 0.6;
+}
+.loadMore div:hover{
+    opacity: 0.8;
+}
 /* ----- IMAGE GALLERY SHOW -----*/
 
 .image-show {

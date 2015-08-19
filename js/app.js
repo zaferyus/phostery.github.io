@@ -2,38 +2,41 @@
 /* ----- ANGULAR CODES ----- */
 angular.module('wallpaper', ['ngTouch'])
 // App Controller
-    .controller('containerController', ['$scope', function ($scope) {
+.controller('containerController', ['$scope',
+    function($scope) {
         $scope.name = 'My Album';
         $scope.images = [];
         $scope.selectedPhotosByIndex = [];
         $scope.shareLink = 'http://phostery.github.io/';
-       
+        $scope.totalRepeat = 3;
+
         // Some basic global variables
-        var i, j, l, equal, code;   
+        var i, j, l, equal, code;
 
         /* ----- GENERAL FUNCTIONS ----- */
         /**
          *  Add one image to the array and displays it at the container
-         *  @param {string} The link of the image that will be added 
+         *  @param {string} The link of the image that will be added
          */
-        $scope.addItem = function (imgUrl) {
-            var inputText = document.getElementsByClassName('mdl-textfield')[0];
+        $scope.addItem = function(imgUrl) {
+            // If the image is new, add to the album
+            if (!hasUrl(imgUrl)) {
+                $scope.images.push({
+                    url: imgUrl
+                });
+                snackbar('Image added on album');
+            } else {
+                snackbar('Image already exist.');
+            }
 
-            if (hasClass(inputText, 'is-dirty')) {
-                // If the image is new, add to the album
-                if (!hasUrl(imgUrl)) {
-                    $scope.images.push({
-                        url: imgUrl
-                    });
-                    snackbar('Image added on album');
-                } else {
-                    snackbar('Image already exist.');
-                }
-
-                // If not editing a shared Url, do cache
-                if (code[1] === false) {
-                    setItem('images', JSON.stringify($scope.images));
-                }
+            // If not editing a shared Url, do cache
+            if (code[1] === false) {
+                setItem('images', JSON.stringify($scope.images, function(key, val) {
+                    if (key == '$$hashKey') {
+                        return undefined;
+                    }
+                    return val;
+                }));
             }
         };
 
@@ -54,13 +57,18 @@ angular.module('wallpaper', ['ngTouch'])
 
         /**
          *  Remove one image to the array and from the container
-         *  @param {int} The index of the item that will be removed 
+         *  @param {int} The index of the item that will be removed
          */
-        $scope.removeItem = function (index) {
+        $scope.removeItem = function(index) {
             $scope.images.splice(index, 1);
             // If not editing a shared Url, do cache
             if (code[1] === false) {
-                setItem('images', JSON.stringify($scope.images));
+                setItem('images', JSON.stringify($scope.images, function(key, val) {
+                    if (key == '$$hashKey') {
+                        return undefined;
+                    }
+                    return val;
+                }));
             }
         };
 
@@ -68,7 +76,7 @@ angular.module('wallpaper', ['ngTouch'])
          *  Change the name of the album and save it on the cache
          *  @param {String} The new name of the album
          */
-        $scope.changeName = function (nome) {
+        $scope.changeName = function(nome) {
             // Check ift's not empty
             $scope.name = nome;
             // If not editing a shared Url, do cache
@@ -78,9 +86,17 @@ angular.module('wallpaper', ['ngTouch'])
         };
 
         /**
+         *  Load more photos of the album. It should prevent to load everything at once
+         */
+        $scope.loadMore = function() {
+            $scope.totalRepeat += 3;
+            $scope.images = $scope.images;
+        };
+
+        /**
          *  Clear all the cache data from the localStorage and reload the page
          */
-        $scope.reset = function () {
+        $scope.reset = function() {
             removeItem('images');
             removeItem('name');
             removeItem('visit');
@@ -92,11 +108,11 @@ angular.module('wallpaper', ['ngTouch'])
          *  @param {string} if the param is not undefined, it means this function must only share
          *  images that were selected !
          */
-        $scope.share = function (selected) {
-            var link = "";
-            
+        $scope.share = function(selected) {
+            var link = '';
+
             // If not, share entire album
-            if (selected == null || selected == undefined) {
+            if (selected === null || selected === undefined) {
                 for (i = 0; i < $scope.images.length; i++) {
                     link += '!url!' + $scope.images[i].url;
                 }
@@ -108,13 +124,14 @@ angular.module('wallpaper', ['ngTouch'])
 
             //If it's only sharing the name of the album, with empty photos
             if (link === '') {
-                link = 'NO PHOTOS ON THIS ALBUM';
+                link = 'YOU HAVE NO PHOTOS';
             } else {
-                if (selected == null || selected == undefined) {
-                    link = 'http://phostery.github.io/' + '#name==' + encodeURIComponent($scope.name) + "&&" + "images==" + link;
+                if (selected === null || selected === undefined) {
+                    link = 'http://phostery.github.io/' + '#name==' +
+                        encodeURIComponent($scope.name) + '&&' + 'images==' + link;
                     snackbar('Created link for this album!');
                 } else {
-                    link = 'http://phostery.github.io/' + '#name==Shared%20With%20Me' + "&&" + "images==" + link;
+                    link = 'http://phostery.github.io/' + '#name==Shared%20With%20Me' + '&&' + 'images==' + link;
                     snackbar('Created link for ' + $scope.selectedPhotosByIndex.length + ' photos!');
                 }
             }
@@ -123,10 +140,12 @@ angular.module('wallpaper', ['ngTouch'])
         };
 
         /**
-         *  Save an shared album's photos to the localStorage cache, not overwritting the current data
-         *  @param {boolean} If false, save all the photos on the album, otherwhise, save only the selected ones
+         *  Save an shared album's photos to the localStorage cache,
+         *  not overwritting the current data
+         *  @param {boolean} If false, save all the photos on the album,
+         *  otherwhise, save only the selected ones
          */
-        $scope.save = function (saveSelection) {
+        $scope.save = function(saveSelection) {
             var data = [];
             var cache = localStorage.getItem('images');
             var x = JSON.parse(cache);
@@ -199,7 +218,7 @@ angular.module('wallpaper', ['ngTouch'])
                         data.push($scope.images[$scope.selectedPhotosByIndex[i]]);
                     }
 
-                    snackbar($scope.selectedPhotosByIndex.length + " Photos added to you're album");
+                    snackbar($scope.selectedPhotosByIndex.length + 'Photos added to you\'re album');
                 } else {
                     // Save all the photos to the array
                     for (j = 0; j < $scope.images.length; j++) {
@@ -212,7 +231,12 @@ angular.module('wallpaper', ['ngTouch'])
             }
 
             // Save the data on the cache and reload
-            setItem('images', JSON.stringify(data));
+            setItem('images', JSON.stringify(data, function(key, val) {
+                if (key == '$$hashKey') {
+                    return undefined;
+                }
+                return val;
+            }));
             setItem('visit', true);
 
             if (!saveSelection) {
@@ -223,13 +247,13 @@ angular.module('wallpaper', ['ngTouch'])
         /* ----- GALLERY SHOW IMAGE ----- */
         var imageShow = document.getElementsByClassName('image-show')[0];
         var indexBackgroundImage;
-        
+
         /**
-         *  Gets the link of the image, and shows the image in a image visualizer  
+         *  Gets the link of the image, and shows the image in a image visualizer
          *  @param {string} The image to display on the visualizer
          *  @param {int} The index of the image displayed
          */
-        $scope.showImage = function (item, index) {
+        $scope.showImage = function(item, index) {
             indexBackgroundImage = index;
             imageShow.style.background = 'url(' + item.url + ') center / cover';
             imageShow.style.display = 'block';
@@ -238,15 +262,15 @@ angular.module('wallpaper', ['ngTouch'])
         /**
          *  Close the image in a image visualizer
          */
-        $scope.closeImage = function () {
+        $scope.closeImage = function() {
             imageShow.style.display = 'none';
             imageShow.style.background = 'black';
         };
-        
+
         /**
          *  Shows the previous image in a image visualizer
          */
-        $scope.prev = function () {
+        $scope.prev = function() {
             if (indexBackgroundImage > 0) {
                 var prevImage = $scope.images[--indexBackgroundImage];
                 $scope.showImage(prevImage, indexBackgroundImage);
@@ -254,11 +278,11 @@ angular.module('wallpaper', ['ngTouch'])
                 snackbar('No more previous photos');
             }
         };
-           
+
         /**
          *  Shows the previous image in a image visualizer
          */
-        $scope.next = function () {
+        $scope.next = function() {
             if (indexBackgroundImage < $scope.images.length - 1) {
                 var nextImage = $scope.images[++indexBackgroundImage];
                 $scope.showImage(nextImage, indexBackgroundImage);
@@ -266,14 +290,14 @@ angular.module('wallpaper', ['ngTouch'])
                 snackbar('No more next photos');
             }
         };
-        
+
         /* ----- FUNCTIONS FOR DISPLAYING PROMPTS ----- */
         var input = document.getElementsByClassName('input');
         /**
          *  Fade the desire prompt
          *  @param {int} The index of the promp in the input array
          */
-        $scope.showInput = function (i) {
+        $scope.showInput = function(i) {
             fadeIn(input[i]);
         };
 
@@ -281,7 +305,7 @@ angular.module('wallpaper', ['ngTouch'])
          *  Fade the desire prompt
          *  @param {int} The index of the promp in the input array
          */
-        $scope.hideInput = function (i) {
+        $scope.hideInput = function(i) {
             fadeOut(input[i]);
             input[i].style.display = 'none';
         };
@@ -295,7 +319,7 @@ angular.module('wallpaper', ['ngTouch'])
          *  @param {HTMLElement} The object which have been selected
          *  @param {int} The index of the selected image
          */
-        $scope.select = function ($event, index) {
+        $scope.select = function($event, index) {
             var target = $event.currentTarget;
 
             /*
@@ -327,10 +351,11 @@ angular.module('wallpaper', ['ngTouch'])
         /**
          *  Function for all the elements from the repeat
          */
-        $scope.selectAll = function () {
+        $scope.selectAll = function() {
             // If all the the images in the repeat weren't select yet, then select all
             if ($scope.selectedPhotosByIndex.length !== $scope.images.length) {
-                $scope.selectedPhotosByIndex = []; // Clear the array, because it will now store all the index
+                // Clear the array, because it will now store all the index
+                $scope.selectedPhotosByIndex = [];
 
                 for (i = 0, l = selectButton.length; i < l; i++) {
                     if (hasClass(selectButton[i], 'not-selected')) {
@@ -348,7 +373,7 @@ angular.module('wallpaper', ['ngTouch'])
         /**
          *  Remove all the selected images
          */
-        $scope.deleteSelected = function () {
+        $scope.deleteSelected = function() {
             // Sort the array in reverse, to not mess in delection
             $scope.selectedPhotosByIndex.sort().reverse();
 
@@ -364,12 +389,14 @@ angular.module('wallpaper', ['ngTouch'])
         /** 
          *  Clear all the selected images, unselecting them
          */
-        $scope.clearSelection = function () {
-            for (i = 0; i < $scope.selectedPhotosByIndex.length; i++) {
-                if (hasClass(selectButton[$scope.selectedPhotosByIndex[i]], 'selected')) {
-                    actionCardBar[$scope.selectedPhotosByIndex[i]].style.background = 'rgba(0, 0, 0, 0.2)';
-                    swapClasses(selectButton[$scope.selectedPhotosByIndex[i]], 'selected', 'not-selected');
-                    selectButton[$scope.selectedPhotosByIndex[i]].getElementsByTagName('i')[0].innerHTML = 'check';
+        $scope.clearSelection = function() {
+            var x = $scope.selectedPhotosByIndex;
+
+            for (i = 0; i < x.length; i++) {
+                if (hasClass(selectButton[x[i]], 'selected')) {
+                    actionCardBar[x[i]].style.background = 'rgba(0, 0, 0, 0.2)';
+                    swapClasses(selectButton[x[i]], 'selected', 'not-selected');
+                    selectButton[x[i]].getElementsByTagName('i')[0].innerHTML = 'check';
                 }
 
                 selectItems('remove');
@@ -381,7 +408,8 @@ angular.module('wallpaper', ['ngTouch'])
         /* ------------------------------------------------------------------- */
 
         /**
-         *  Function for the dealing on opening links, checking if it's the regular url of if it's a shared url link
+         *  Function for the dealing on opening links, checking if it's the regular
+         *  url of if it's a shared url link
          *  @retun {Array<boolean>} return if the link openend constains an album name or images,
          *  wherein the first position is for the name and the second for the image
          */
@@ -436,7 +464,8 @@ angular.module('wallpaper', ['ngTouch'])
         }
         // Run the localstorage and return the info
         code = run();
-    }]);
+    }
+]);
 
 /**
  *  Add data to the localStorage cache
@@ -461,7 +490,8 @@ function removeItem(key, data) {
  *  @return {Array.<string>} The atributes of the custom Url
  */
 function getUrlData() {
-    var vars = [], hash;
+    var vars = [],
+        hash;
     var hashes = window.location.href.slice(window.location.href.indexOf('#') + 1).split('&&');
 
     for (var i = 0, l = hashes.length; i < l; i++) {
@@ -485,7 +515,7 @@ function hasClass(el, cls) {
 
 /**
  *  Swich one class for another in some element
- *  @param {HTMLElement} The element desired to swap classes 
+ *  @param {HTMLElement} The element desired to swap classes
  *  @param {string} The name of the class that will be replaced
  *  @param {String} The name of the class that will replace the other class
  */
@@ -499,7 +529,7 @@ function swapClasses(elem, class1, class2) {
 
 /**
  *  A fadeIn animation effect
- *  @param {HTMLElement} The element desired 
+ *  @param {HTMLElement} The element desired
  */
 function fadeIn(elem) {
     elem.style.display = 'block';
@@ -509,7 +539,7 @@ function fadeIn(elem) {
 
 /**
  *  A fadeOut animation effect
- *  @param {HTMLElement} The element desired 
+ *  @param {HTMLElement} The element desired
  */
 function fadeOut(elem) {
     elem.classList.remove('fadeIn');
@@ -521,13 +551,14 @@ function fadeOut(elem) {
  *  @param {string} The massage to display to the user
  */
 var snackbarElem = document.getElementById('snackbar');
+
 function snackbar(message) {
     if (message !== '' || message !== null) {
         snackbarElem.getElementsByTagName('span')[0].innerHTML = message;
         snackbarElem.style.display = 'block';
         swapClasses(snackbarElem, 'fadeOutDown', 'fadeInUp');
 
-        setTimeout(function () {
+        setTimeout(function() {
             swapClasses(snackbarElem, 'fadeInUp', 'fadeOutDown');
         }, 3000);
     }
@@ -540,6 +571,7 @@ function snackbar(message) {
 var options = document.getElementById('options');
 var amount = document.getElementById('amount-selected');
 var q = 0;
+
 function selectItems(type) {
     options.style.display = 'block';
     options.classList.add('fadeInDown');
@@ -563,8 +595,9 @@ function selectItems(type) {
  *  Check the cache manifest, if there's a new version, download it and fetch
  */
 var appCache = window.applicationCache;
+
 function checkCache() {
-    if (appCache.status != 0) {
+    if (appCache.status !== 0) {
         appCache.update();
 
         if (appCache.status == window.applicationCache.UPDATEREADY) {

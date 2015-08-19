@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html ng-app="wallpaper" manifest="store.appcache">
-
 <head>
   <meta charset="utf-8">
   <title>Phostery</title>
@@ -18,7 +17,6 @@
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/animate.min.css">
 </head>
-
 <body ng-controller="containerController">
   <!-- GENERAL CONTAINER -->
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -64,7 +62,7 @@
         <button class="mdl-button mdl-js-button mdl-button--icon" ng-click="selectAll()">
           <i class="material-icons">select_all</i>
         </button>
-        <button id="save-selected" class="mdl-button mdl-js-button mdl-button--icon" ng-click="showInput(2); share('selected')">
+        <button class="mdl-button mdl-js-button mdl-button--icon" ng-click="showInput(2); share('selected')">
           <i class="material-icons">link</i>
         </button>
         <button id="save-selected" class="mdl-button mdl-js-button mdl-button--icon" ng-click="save(true)" style="display: none;">
@@ -77,11 +75,15 @@
     </div>
     <!-- CARDS BODY -->
     <main class="mdl-layout__content">
-      <button id="fab" ng-click="showInput(0)" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--colored"><i class="material-icons">insert_photo</i></button>
+      <!-- FAB -->
+      <button id="fab" ng-click="showInput(0)" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--colored">
+        <i class="material-icons">insert_photo</i>
+      </button>
+      <!-- CARDS -->
       <div class="page-content">
         <div class="container">
           <div class="row" ng-show="images.length">
-            <div class="thumb col-md-4" style="cursor: pointer" ng-repeat="x in images">
+            <div class="thumb col-md-4" style="cursor: pointer" ng-repeat="x in images | limitTo:totalRepeat">
               <div class="mdl-card mdl-shadow--2dp" ng-style="{'background':'url({{x.url}}) center / cover'}">
                 <div class="mdl-card--expand" ng-click="showImage(x, $index)"></div>
                 <div class="mdl-card__actions">
@@ -102,6 +104,10 @@
               </div>
             </div>
           </div>
+          <!-- LOAD MORE IMAGES BUTTON -->
+          <div class="loadMore" ng-hide="totalRepeat >= images.length">
+            <div ng-click="loadMore()">LOAD MORE PHOTOS</div>
+          </div>
         </div>
       </div>
     </main>
@@ -121,11 +127,16 @@
   <!-- URL INPUT-->
   <div class="input animated">
     <div class="mdl-card mdl-shadow--8dp">
-      <div style="color: #727272;padding: 16px 16px 0 16px" class="mdl-card__title">Add An Image<i class="material-icons" style="padding: 0 4px">insert_photo</i></div>
+      <div style="color: #727272;padding: 16px 16px 0 16px" class="mdl-card__title">
+        Add An Image
+        <i class="material-icons" style="padding: 0 4px">insert_photo</i>
+      </div>
       <form style="padding: 16px 16px 0 16px">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
           <input class="mdl-textfield__input" autocomplete="off" ng-model="images.url" type="text" id="sample3" />
-          <label style="color: rgb(63,81,181); font-weight: 100" class="mdl-textfield__label" for="sample3">Url to image...</label>
+          <label style="color: rgb(63,81,181); font-weight: 100" class="mdl-textfield__label" for="sample3">
+            Url to image...
+          </label>
         </div>
         <button style="color: #727272" type="button" class="mdl-button mdl-js-button" ng-click="hideInput(0)">Cancel</button>
         <button style="float: right" type="button" ng-click="addItem(images.url); hideInput(0)" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
@@ -136,11 +147,16 @@
   <!-- ALBUM NAME INPUT-->
   <div class="input animated">
     <div class="mdl-card mdl-shadow--8dp">
-      <div style="color: #727272;padding: 16px 16px 0 16px" class="mdl-card__title">Rename Album<i class="material-icons" style="padding: 0 4px;font-size: 20px;">mode_edit</i></div>
+        <div style="color: #727272;padding: 16px 16px 0 16px" class="mdl-card__title">
+        Rename Album
+        <i class="material-icons" style="padding: 0 4px;font-size: 20px;">mode_edit</i>
+      </div>
       <form class="form" style="padding: 16px 16px 0 16px">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
           <input class="mdl-textfield__input" autocomplete="off" ng-model="name" type="text" id="sample3" />
-          <label style="color: rgb(63,81,181); font-weight: 100" class="mdl-textfield__label" for="sample3">Album's name...</label>
+          <label style="color: rgb(63,81,181); font-weight: 100" class="mdl-textfield__label" for="sample3">
+            Album's name...
+          </label>
         </div>
         <button style="color: #727272" type="button" class="mdl-button mdl-js-button" ng-click="hideInput(1)">Close</button>
         <button style="float: right" type="button" ng-click="changeName(name); hideInput(1)" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
@@ -151,7 +167,10 @@
   <!-- SHARE ALBUM INPUT-->
   <div class="input animated">
     <div class="mdl-card mdl-shadow--8dp">
-      <div style="color: #727272;padding: 16px 16px 0 16px" class="mdl-card__title">Share Link<i class="material-icons" style="padding: 0 4px">link</i></div>
+      <div style="color: #727272;padding: 16px 16px 0 16px" class="mdl-card__title">
+        Share Link
+        <i class="material-icons" style="padding: 0 4px">link</i>
+      </div>
       <form class="form" style="padding: 16px 16px 0 16px">
         <div class="mdl-textfield mdl-js-textfield textfield-demo">
           <input class="mdl-textfield__input mdl-color-text--indigo-300" autocomplete="off" type="text" ng-model="shareLink" />
@@ -164,11 +183,10 @@
   <div id="snackbar" class="animated">
     <span></span>
   </div>
-  <!-- Script -->
+  <!-- Scripts -->
   <script src="js/angular.min.js"></script>
   <script src="js/angular-touch.min.js"></script>
   <script src="js/material.min.js"></script>
   <script src="js/app.js"></script>
 </body>
-
 </html>
