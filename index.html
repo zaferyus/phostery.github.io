@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="wallpaper" manifest="store.appcache">
+<html ng-app="phostery" manifest="store.appcache">
 <head>
   <meta charset="utf-8">
   <title>Phostery</title>
@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/animate.min.css">
 </head>
-<body ng-controller="containerController">
+<body ng-controller="appController">
   <!-- GENERAL CONTAINER -->
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <header class="mdl-layout__header">
@@ -106,23 +106,26 @@
           </div>
           <!-- LOAD MORE IMAGES BUTTON -->
           <div class="loadMore" ng-hide="totalRepeat >= images.length">
-            <div ng-click="loadMore()">LOAD MORE PHOTOS</div>
+            <div ng-click="loadMore()">LOAD MORE</div>
           </div>
         </div>
       </div>
     </main>
   </div>
   <!-- IMAGE OPENING -->
-  <div class="image-show animated">
-    <button style="background: white;" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab" ng-click="prev($event)">
-      <i class="material-icons">keyboard_arrow_left</i>
-    </button>
-    <button style="background: white;" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab" ng-click="next($event)">
-      <i class="material-icons">keyboard_arrow_right</i>
-    </button>
-    <button style="background: white;float: right;" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab" ng-click="closeImage()">
-      <i class="material-icons">close</i>
-    </button>
+  <div class="image-show">
+    <!-- CONTROLS -->
+    <div>
+      <button class="mdl-button mdl-js-button mdl-button--icon" ng-click="closeImage()">
+        <i class="material-icons">arrow_back</i>
+      </button>
+      <button style="float:right;" class="mdl-button mdl-js-button mdl-button--icon" ng-click="deleteImage()">
+        <i class="material-icons">delete</i>
+      </button>
+      <button style="float: right;" class="mdl-button mdl-js-button mdl-button--icon" ng-click="openImage()">
+        <i class="material-icons">open_in_browser</i>
+      </button> 
+    </div>
   </div>
   <!-- URL INPUT-->
   <div class="input animated">

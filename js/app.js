@@ -1,8 +1,8 @@
 'use strict';
 /* ----- ANGULAR CODES ----- */
-angular.module('wallpaper', ['ngTouch'])
+angular.module('phostery', ['ngTouch'])
 // App Controller
-.controller('containerController', ['$scope',
+.controller('appController', ['$scope',
     function($scope) {
         $scope.name = 'My Album';
         $scope.images = [];
@@ -246,15 +246,15 @@ angular.module('wallpaper', ['ngTouch'])
 
         /* ----- GALLERY SHOW IMAGE ----- */
         var imageShow = document.getElementsByClassName('image-show')[0];
-        var indexBackgroundImage;
-
+        var indexImageShow, urlImageShow;
         /**
          *  Gets the link of the image, and shows the image in a image visualizer
          *  @param {string} The image to display on the visualizer
          *  @param {int} The index of the image displayed
          */
         $scope.showImage = function(item, index) {
-            indexBackgroundImage = index;
+            urlImageShow = item.url;
+            indexImageShow = index;
             imageShow.style.background = 'url(' + item.url + ') center / cover';
             imageShow.style.display = 'block';
         };
@@ -268,27 +268,19 @@ angular.module('wallpaper', ['ngTouch'])
         };
 
         /**
-         *  Shows the previous image in a image visualizer
+         *  Delete the image on the image visualizer
          */
-        $scope.prev = function() {
-            if (indexBackgroundImage > 0) {
-                var prevImage = $scope.images[--indexBackgroundImage];
-                $scope.showImage(prevImage, indexBackgroundImage);
-            } else {
-                snackbar('No more previous photos');
-            }
+        $scope.deleteImage = function() {
+            $scope.removeItem(indexImageShow);
+            $scope.closeImage();
+            snackbar('Image deleted!');
         };
 
         /**
-         *  Shows the previous image in a image visualizer
+         *  Open the url of the image in the visualizer
          */
-        $scope.next = function() {
-            if (indexBackgroundImage < $scope.images.length - 1) {
-                var nextImage = $scope.images[++indexBackgroundImage];
-                $scope.showImage(nextImage, indexBackgroundImage);
-            } else {
-                snackbar('No more next photos');
-            }
+        $scope.openImage = function() {
+            window.open(urlImageShow);
         };
 
         /* ----- FUNCTIONS FOR DISPLAYING PROMPTS ----- */

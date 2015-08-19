@@ -8,31 +8,25 @@
     border: 0;
     box-sizing: border-box;
 }
-
-
 /* ----- General Page Definitions ----- */
 
 html {
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
 }
-
 body {
     background: white;
 }
-
 a,
 a:link,
 a:hover {
     text-decoration: none;
     cursor: pointer;
 }
-
 .h2,
 h2 {
     font-size: 30px;
 }
-
 .h1,
 .h2,
 .h3,
@@ -42,7 +36,6 @@ h3 {
     margin-top: 20px;
     margin-bottom: 10px;
 }
-
 .h1,
 .h2,
 .h3,
@@ -58,14 +51,12 @@ h6 {
     line-height: 1.1;
     color: inherit;
 }
-
 .container {
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
 }
-
 .container:before,
 .container:after,
 .row:before,
@@ -73,17 +64,14 @@ h6 {
     display: table;
     content: " ";
 }
-
 .container:after,
 .row:after {
     clear: both;
 }
-
 .row {
     margin-right: -15px;
     margin-left: -15px;
 }
-
 .col-md-1,
 .col-md-2,
 .col-md-3,
@@ -97,16 +85,13 @@ h6 {
     padding-right: 15px;
     padding-left: 15px;
 }
-
-
 /* ----- HEADER -----*/
 
 .mdl-layout__header {
     background-color: #FAFAFA;
     color: rgba(0, 0, 0, 0.86);
 }
-
-#options{
+#options {
     color: white;
     position: relative;
     top: 0;
@@ -123,51 +108,41 @@ h6 {
     -webkit-animation-delay: 0s;
     animation-delay: 0s;
 }
-
-#options button{
+#options button {
     margin: 0 4px;
 }
-
 .mdl-layout__header span {
     color: rgba(0, 0, 0, 0.86);
 }
-
 .mdl-navigation__link {
     padding: 0 4px !important;
 }
-
 #save-data {
     display: none;
 }
-
-
 /* ----- CONTAINER -----*/
 
 .page-content .container {
     margin-top: 15px;
 }
-
 .mdl-card {
     width: 100%;
     height: 256px;
     overflow: hidden;
 }
-
 .mdl-card__actions {
     height: auto;
     padding: 8px;
     background: rgba(0, 0, 0, 0.2);
+    -webkit-transition: 300ms background ease;
     transition: 300ms background ease;
 }
-
 .demo-card-image__filename {
     color: #fff;
 }
-
 .thumb {
     margin-bottom: 22px;
 }
-
 #fab {
     position: fixed;
     bottom: 12px;
@@ -175,27 +150,27 @@ h6 {
     background: rgb(63, 81, 181);
     z-index: 555;
 }
-
-.loadMore{
+.loadMore {
     width: 100%;
     text-align: center;
-    margin: 20px 0;
+    margin-bottom: 20px;
 }
-
-.loadMore div{
-    width: 150px;
-    height: 150px;
+.loadMore div {
+    width: 125px;
+    height: 125px;
     margin: 0 auto;
-    line-height: 14;
+    line-height: 11.5;
     border: 2px solid #3F51B5;
     border-radius: 50%;
     font-size: 0.8em;
     color: #3F51B5;
     cursor: pointer;
     opacity: 0.6;
+    filter: alpha(opacity=60);
 }
-.loadMore div:hover{
+.loadMore div:hover {
     opacity: 0.8;
+    filter: alpha(opacity=80);
 }
 /* ----- IMAGE GALLERY SHOW -----*/
 
@@ -207,13 +182,15 @@ h6 {
     height: 100%;
     z-index: 666;
     background: black;
-    display: none; 
+    display: none;
 }
-
-.image-show button{
-    margin: 4px;
+.image-show div {
+    background: linear-gradient(0deg,rgba(0,0,0,0),rgba(0,0,0,0.4));
+    color: white;
 }
-
+.image-show div button{
+    margin: 12px;
+}
 /* ----- IMAGE ADD INPUT -----*/
 
 .input {
@@ -230,7 +207,6 @@ h6 {
     -webkit-animation-delay: 0s;
     animation-delay: 0s;
 }
-
 .input .mdl-card {
     width: 400px;
     height: auto;
@@ -238,12 +214,10 @@ h6 {
     margin-left: auto;
     margin-right: auto;
 }
-
 .input .mdl-textfield {
     width: 100%;
 }
-
-#snackbar{
+#snackbar {
     width: 100%;
     max-width: 300px;
     min-height: 50px;
@@ -256,9 +230,8 @@ h6 {
     z-index: 999;
     margin: 8px;
     display: none;
-    box-shadow: 0 1px 1.5px 0 rgba(0,0,0,.12),0 1px 1px 0 rgba(0,0,0,.24);
+    box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, .12), 0 1px 1px 0 rgba(0, 0, 0, .24);
 }
-
 /* ----- MEDIA QUERIES ----- */
 
 @media (min-width: 900px) {
@@ -269,20 +242,17 @@ h6 {
         display: none !important;
     }
 }
-
 @media (max-width: 600px) {
     .mdl-navigation a span {
         display: none !important;
     }
-
-    #snackbar{
+    #snackbar {
         margin: 0;
         max-width: 100%;
         min-height: 60px;
         padding: 22px;
     }
 }
-
 @media (max-width: 900px) {
     .mdl-card {
         height: 300px;
@@ -297,32 +267,21 @@ h6 {
         display: block !important;
     }
 }
-
-@media (max-height: 500px) {
-    .skip {
-        position: relative !important;
-    }
-}
-
-
 @media (min-width: 768px) {
     .container {
         width: 750px;
     }
 }
-
 @media (min-width: 992px) {
     .container {
         width: 970px;
     }
 }
-
 @media (min-width: 1200px) {
     .container {
         width: 1170px;
     }
 }
-
 @media (min-width: 992px) {
     .col-md-1,
     .col-md-2,
@@ -375,7 +334,6 @@ h6 {
         width: 8.33333333%;
     }
 }
-
 @media (max-width: 1024px) {
     .mdl-layout__header-row {
         padding: 0 16px 0 16px;
