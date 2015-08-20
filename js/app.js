@@ -2,8 +2,8 @@
 /* ----- ANGULAR CODES ----- */
 angular.module('phostery', ['ngTouch'])
 // App Controller
-.controller('appController', ['$scope',
-    function($scope) {
+.controller('appController', ['$scope','$location',
+    function($scope, $location) {
         $scope.name = 'My Album';
         $scope.images = [];
         $scope.selectedPhotosByIndex = [];
@@ -248,23 +248,25 @@ angular.module('phostery', ['ngTouch'])
         var imageShow = document.getElementsByClassName('image-show')[0];
         var indexImageShow, urlImageShow;
         /**
-         *  Gets the link of the image, and shows the image in a image visualizer
-         *  @param {string} The image to display on the visualizer
-         *  @param {int} The index of the image displayed
-         */
+        *  Gets the link of the image, and shows the image in a image visualizer
+        *  @param {string} The image to display on the visualizer
+        *  @param {int} The index of the image displayed
+        */
         $scope.showImage = function(item, index) {
-            urlImageShow = item.url;
-            indexImageShow = index;
-            imageShow.style.background = 'url(' + item.url + ') center / cover';
-            imageShow.style.display = 'block';
+           urlImageShow = item.url;
+           indexImageShow = index;
+           imageShow.style.background = 'url(' + item.url + ') center / contain no-repeat #000';
+           imageShow.style.display = 'block';
+           $location.path("/gallery/" + btoa(item.url)).replace();
         };
 
         /**
-         *  Close the image in a image visualizer
-         */
+        *  Close the image in a image visualizer
+        */
         $scope.closeImage = function() {
-            imageShow.style.display = 'none';
-            imageShow.style.background = 'black';
+           imageShow.style.display = 'none';
+           imageShow.style.background = 'black';
+           $location.path("/").replace();
         };
 
         /**
@@ -378,7 +380,7 @@ angular.module('phostery', ['ngTouch'])
             $scope.selectedPhotosByIndex = [];
         };
 
-        /** 
+        /**
          *  Clear all the selected images, unselecting them
          */
         $scope.clearSelection = function() {
@@ -410,7 +412,7 @@ angular.module('phostery', ['ngTouch'])
             var name = getUrlData().name;
             var imgs = getUrlData().images;
 
-            // If it's not the first time visiting, hide intro 
+            // If it's not the first time visiting, hide intro
             if (!localStorage.getItem('visit')) {
                 setItem('visit', true);
                 window.location.assign('about.html');

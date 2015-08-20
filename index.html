@@ -94,11 +94,11 @@
                       <a href="{{x.url}}" target="_blank">
                         <button style="float: right; color: white;" class="mdl-button mdl-js-button mdl-button--icon">
                           <i class="material-icons">open_in_browser</i>
-                        </button> 
+                        </button>
                       </a>
                        <button style="float: right; color: white;" ng-click="select($event, $index)" class="mdl-button mdl-js-button mdl-button--icon select not-selected">
                           <i class="material-icons">check</i>
-                        </button> 
+                        </button>
                     </span>
                 </div>
               </div>
@@ -113,7 +113,7 @@
     </main>
   </div>
   <!-- IMAGE OPENING -->
-  <div class="image-show">
+  <div class="image-show" ng-click="closeImage()">
     <!-- CONTROLS -->
     <div>
       <button class="mdl-button mdl-js-button mdl-button--icon" ng-click="closeImage()">
@@ -124,7 +124,7 @@
       </button>
       <button style="float: right;" class="mdl-button mdl-js-button mdl-button--icon" ng-click="openImage()">
         <i class="material-icons">open_in_browser</i>
-      </button> 
+      </button>
     </div>
   </div>
   <!-- URL INPUT-->
